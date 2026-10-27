@@ -1,0 +1,111 @@
+.terminal {
+  width: min(900px, 95%);
+  min-height: 500px;
+  margin: 60px auto;
+  background: #111318;
+  border: 1px solid #343a46;
+  border-radius: 12px;
+  overflow: hidden;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+.terminal-header {
+  height: 46px;
+  background: #1b1e26;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  position: relative;
+}
+
+.terminal-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.terminal-buttons span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-buttons span:nth-child(1) {
+  background: #ff5f57;
+}
+
+.terminal-buttons span:nth-child(2) {
+  background: #febc2e;
+}
+
+.terminal-buttons span:nth-child(3) {
+  background: #28c840;
+}
+
+.terminal-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #a78bfa;
+  font-size: 13px;
+}
+
+.terminal-body {
+  padding: 30px;
+  color: #d1d5db;
+}
+
+.terminal-welcome h1 {
+  color: #a78bfa;
+  font-size: 30px;
+}
+
+.terminal-welcome p {
+  margin: 12px 0;
+  color: #9ca3af;
+}
+
+.terminal-history {
+  margin-top: 30px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.terminal form {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  align-items: center;
+}
+
+.terminal label {
+  color: #4ade80;
+  white-space: nowrap;
+}
+
+.terminal input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e5e7eb;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .terminal {
+    margin: 24px auto;
+    min-height: 420px;
+  }
+
+  .terminal-body {
+    padding: 18px;
+  }
+
+  .terminal form {
+    flex-wrap: wrap;
+  }
+}
