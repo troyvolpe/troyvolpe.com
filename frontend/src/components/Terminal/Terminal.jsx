@@ -1,11 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { commands } from "./commands";
 import "./Terminal.css";
+import { TerminalContext } from "../../context/TerminalContext";
 
 function Terminal() {
   const [input, setInput] = useState("");
-  const [history, setHistory] = useState([]);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const inputRef = useRef(null);
@@ -15,7 +15,10 @@ function Terminal() {
     }
   }, [isMinimized]);
 
+  
   const navigate = useNavigate();
+
+  const { history, setHistory } = useContext(TerminalContext);
 
   function minimizeTerminal() {
     setIsMinimized(true);
@@ -75,7 +78,7 @@ function Terminal() {
       navigate(result.navigate);
     }
   }
-
+  
   if (isMinimized) {
     return (
       <button
