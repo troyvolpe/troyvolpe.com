@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { commands } from "./commands";
 import "./Terminal.css";
@@ -6,30 +6,36 @@ import "./Terminal.css";
 function Terminal() {
   const [input, setInput] = useState("");
   const [history, setHistory] = useState([]);
+  const inputRef = useRef(null);
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   const navigate = useNavigate();
 
   function handleCommand(event) {
     event.preventDefault();
 
-    const command = input.trim().toLowerCase();
+    const normalizedInput = input.trim().toLowerCase();
+    
+    if (!normalizedInput) return;
 
-    if (!command) return;
+    const [command, ...args] = normalizedInput.split(/\s+/);
 
     const selectedCommand = commands[command];
 
     if (!selectedCommand) {
       setHistory((previous) => [
         ...previous,
-        `visitor@troyvolpe:~$ ${command}`,
-        `Command not found: ${command}`,
+        `visitor@troyvolpe:~$ ${normalizedInput}`,
+        `Command not found: ${normalizedInput}`,
       ]);
 
       setInput("");
       return;
     }
 
-    const result = selectedCommand.execute();
+    const result = selectedCommand.execute(args);
 
     if (result.clear) {
       setHistory([]);
@@ -39,7 +45,7 @@ function Terminal() {
 
     setHistory((previous) => [
       ...previous,
-      `visitor@troyvolpe:~$ ${command}`,
+      `visitor@troyvolpe:~$ ${normalizedInput}`,
       ...(result.output || []),
     ]);
 
@@ -51,7 +57,17 @@ function Terminal() {
   }
 
   return (
-    <div className="terminal">
+    <div 
+      className="terminal"
+      onClick={(event) => {
+        if (event.target instanceof HTMLElement &&
+            event.target.closest("button, a, input, textarea, select")) {
+          return;
+        }
+        
+        inputRef.current?.focus();
+      }}
+    >
       <div className="terminal-header">
         <div className="terminal-buttons">
           <span />
@@ -90,6 +106,7 @@ function Terminal() {
             autoComplete="off"
             spellCheck="false"
             aria-label="Terminal command"
+            ref={inputRef}
           />
         </form>
       </div>
