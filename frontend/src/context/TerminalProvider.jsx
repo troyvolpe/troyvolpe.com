@@ -5,6 +5,7 @@ function TerminalProvider({ children }) {
   const [history, setHistory] = useState([]);
   const [isFloatingOpen, setIsFloatingOpen] = useState(false);
   const [isFloatingExpanded, setIsFloatingExpanded] = useState(false);
+  const [commandHistory, setCommandHistory] = useState([]);
 
   return (
     <TerminalContext.Provider 
@@ -15,6 +16,8 @@ function TerminalProvider({ children }) {
             setIsFloatingOpen,
             isFloatingExpanded,
             setIsFloatingExpanded,
+            commandHistory,
+            setCommandHistory,
         }}
     >
         {children}

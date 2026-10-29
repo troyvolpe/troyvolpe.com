@@ -9,6 +9,8 @@ function Terminal({ mode = "home" }) {
   const [isMinimized, setIsMinimized] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const inputRef = useRef(null);
+  const[historyIndex, setHistoryIndex] = useState(-1);
+
   useEffect(() => {
     if (!isMinimized) {
       inputRef.current?.focus();
@@ -24,7 +26,39 @@ function Terminal({ mode = "home" }) {
     setIsFloatingOpen,
     isFloatingExpanded,
     setIsFloatingExpanded,
+    commandHistory,
+    setCommandHistory,
   } = useContext(TerminalContext);
+
+  function handleHistoryNavigation(event) {
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+      const nextIndex = Math.min(
+        historyIndex + 1,
+        commandHistory.length - 1
+      );
+      setHistoryIndex(nextIndex);
+
+      setInput(
+        commandHistory[commandHistory.length - 1 - nextIndex]
+      );
+    } else if (event.key === "ArrowDown") {
+        event.preventDefault();
+        const nextIndex = Math.max(
+          historyIndex - 1,
+          -1
+        );
+        setHistoryIndex(nextIndex);
+
+        if (nextIndex === -1){
+          setInput("");
+        } else {
+          setInput(
+            commandHistory[commandHistory.length - 1 - nextIndex]
+          );
+        }
+    }
+  }
 
   function minimizeTerminal() {
     if (mode === "floating") {
@@ -60,9 +94,14 @@ function Terminal({ mode = "home" }) {
     const normalizedInput = input.trim().toLowerCase();
     
     if (!normalizedInput) return;
+    setCommandHistory((previous) => [
+      ...previous,
+      normalizedInput,
+    ]);
+
+    setHistoryIndex(-1);
 
     const [command, ...args] = normalizedInput.split(/\s+/);
-
     const selectedCommand = commands[command];
 
     if (!selectedCommand) {
@@ -180,6 +219,7 @@ function Terminal({ mode = "home" }) {
             spellCheck="false"
             aria-label="Terminal command"
             ref={inputRef}
+            onKeyDown={handleHistoryNavigation}
           />
         </form>
       </div>
