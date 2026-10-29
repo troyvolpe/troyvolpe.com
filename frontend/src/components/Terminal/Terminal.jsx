@@ -4,7 +4,7 @@ import { commands } from "./commands";
 import "./Terminal.css";
 import { TerminalContext } from "../../context/TerminalContext";
 
-function Terminal() {
+function Terminal({ mode = "home" }) {
   const [input, setInput] = useState("");
   const [isMinimized, setIsMinimized] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -15,17 +15,31 @@ function Terminal() {
     }
   }, [isMinimized]);
 
-  
   const navigate = useNavigate();
 
-  const { history, setHistory } = useContext(TerminalContext);
+
+  const {
+    history,
+    setHistory,
+    setIsFloatingOpen,
+    isFloatingExpanded,
+    setIsFloatingExpanded,
+  } = useContext(TerminalContext);
 
   function minimizeTerminal() {
-    setIsMinimized(true);
+    if (mode === "floating") {
+      setIsFloatingOpen(false);
+    } else {
+      setIsMinimized(true);
+    }
   }
 
   function killTerminal() {
-    navigate("/portfolio");
+    if (mode === "floating") {
+      setIsFloatingOpen(false);
+    } else{
+      navigate("/portfolio");
+    }
   }
 
   function restoreTerminal() {
@@ -33,7 +47,11 @@ function Terminal() {
   }
 
   function toggleExpand() {
-    setIsExpanded((previous) => !previous);
+    if (mode === "floating") {
+      setIsFloatingExpanded((previous) => !previous);
+    } else {
+      setIsExpanded((previous) => !previous);
+    }
   }
 
   function handleCommand(event) {
@@ -93,7 +111,11 @@ function Terminal() {
 
   return (
     <div 
-      className={`terminal ${isExpanded ? "terminal-expanded" : ""}`}
+      className={`terminal ${mode === "floating" ? "terminal-floating" : ""} ${
+        (mode === "floating" ? isFloatingExpanded : isExpanded)
+        ? "terminal-expanded"
+        : ""
+      }`}
       onClick={(event) => {
         if (event.target instanceof HTMLElement &&
             event.target.closest("button, a, input, textarea, select")) {

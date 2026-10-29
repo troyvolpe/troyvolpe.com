@@ -19,6 +19,14 @@ export const commands = {
     },
   },
 
+  home:{
+    description: "Return to root page",
+    execute: () => ({
+        output: ["Returning to root page..."],
+        navigate: "/"
+    })
+  },
+
   ls: {
     description: "List portfolio sections",
     execute: () => ({

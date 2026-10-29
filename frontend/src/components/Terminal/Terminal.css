@@ -8,6 +8,7 @@
   overflow: hidden;
   font-family: "SFMono-Regular", Consolas, monospace;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
 }
 
 .terminal-expanded {
@@ -133,4 +134,47 @@
 
 .terminal-restore-button:hover {
   background: #292d38;
+}
+
+.floating-terminal-container {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: min(600px, calc(100vw - 48px));
+  z-index: 1000;
+}
+
+.terminal-floating {
+  width: 100%;
+  min-height: 350px;
+  max-height: 65vh;
+  margin: 0;
+  overflow-y: auto;
+}
+
+.floating-terminal-launcher {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1000;
+  padding: 14px 20px;
+  background: #1b1e26;
+  color: #4ade80;
+  border: 1px solid #343a46;
+  border-radius: 10px;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  cursor: pointer;
+}
+
+.floating-terminal-launcher:hover {
+  background: #292d38;
+}
+
+.floating-terminal-container-expanded {
+  width: min(1100px, calc(100vw - 48px));
+}
+
+.floating-terminal-container-expanded .terminal-floating {
+  min-height: 75vh;
+  max-height: 85vh;
 }
