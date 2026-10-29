@@ -6,12 +6,32 @@ import "./Terminal.css";
 function Terminal() {
   const [input, setInput] = useState("");
   const [history, setHistory] = useState([]);
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const inputRef = useRef(null);
   useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+    if (!isMinimized) {
+      inputRef.current?.focus();
+    }
+  }, [isMinimized]);
 
   const navigate = useNavigate();
+
+  function minimizeTerminal() {
+    setIsMinimized(true);
+  }
+
+  function killTerminal() {
+    navigate("/portfolio");
+  }
+
+  function restoreTerminal() {
+    setIsMinimized(false);
+  }
+
+  function toggleExpand() {
+    setIsExpanded((previous) => !previous);
+  }
 
   function handleCommand(event) {
     event.preventDefault();
@@ -56,9 +76,21 @@ function Terminal() {
     }
   }
 
+  if (isMinimized) {
+    return (
+      <button
+        type="button"
+        className="terminal-restore-button"
+        onClick={restoreTerminal}
+      >
+        Restore Terminal
+      </button>
+    );
+  }
+
   return (
     <div 
-      className="terminal"
+      className={`terminal ${isExpanded ? "terminal-expanded" : ""}`}
       onClick={(event) => {
         if (event.target instanceof HTMLElement &&
             event.target.closest("button, a, input, textarea, select")) {
@@ -70,9 +102,25 @@ function Terminal() {
     >
       <div className="terminal-header">
         <div className="terminal-buttons">
-          <span />
-          <span />
-          <span />
+          
+          <button className="kill_button" title="Kills terminal"
+            type="button"
+            aria-label="Kill terminal"
+            onClick={killTerminal}
+          />
+          
+          <button className="minimize_button" title="Minimizes terminal"
+            type="button"
+            aria-label="Minimize terminal"
+            onClick={minimizeTerminal}
+          />
+          
+          <button className="expand_button" title="Restores terminal"
+            type="button"
+            aria-label="Expand or restore terminal"
+            onClick={toggleExpand}
+          />
+        
         </div>
 
         <span className="terminal-title">

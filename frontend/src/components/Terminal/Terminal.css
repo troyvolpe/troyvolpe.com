@@ -10,6 +10,11 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
 }
 
+.terminal-expanded {
+  width: min(1200px, 98%);
+  min-height: 75vh;
+}
+
 .terminal-header {
   height: 46px;
   background: #1b1e26;
@@ -24,21 +29,24 @@
   gap: 8px;
 }
 
-.terminal-buttons span {
+.terminal-buttons button {
   width: 12px;
+  border: none;
+  cursor: pointer;
+  padding: 0;
   height: 12px;
   border-radius: 50%;
 }
 
-.terminal-buttons span:nth-child(1) {
+.kill_button {
   background: #ff5f57;
 }
 
-.terminal-buttons span:nth-child(2) {
+.minimize_button {
   background: #febc2e;
 }
 
-.terminal-buttons span:nth-child(3) {
+.expand_button {
   background: #28c840;
 }
 
@@ -108,4 +116,21 @@
   .terminal form {
     flex-wrap: wrap;
   }
+}
+
+.terminal-restore-button {
+  display: block;
+  margin: 60px auto;
+  padding: 12px 24px;
+  background: #1b1e26;
+  color: #a78bfa;
+  border: 1px solid #343a46;
+  border-radius: 8px;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.terminal-restore-button:hover {
+  background: #292d38;
 }
