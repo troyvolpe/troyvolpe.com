@@ -31,14 +31,43 @@ function Terminal({ mode = "home" }) {
   } = useContext(TerminalContext);
 
   function handleAutoComplete(event){
-    if (event.key == "Tab"){
+    if (event.key === "Tab"){
       event.preventDefault();
 
-      const currentInput = input.trim().toLowerCase();
+      const currentInput = input.trimStart().toLowerCase();
+      const parts = currentInput.split(/\s+/);
+      const command = parts[0];
+      const argument = parts[1] || "";
 
       if (!currentInput) return;
     
       const commandNames = Object.keys(commands);
+
+      if (command === "cd" && currentInput.includes(" ")) {
+        const destinations = [
+          "about",
+          "projects",
+          "skills",
+          "certifications",
+          "portfolio",
+        ];
+
+        const matches = destinations.filter((destination) =>
+          destination.startsWith(argument)
+      );
+
+      if (matches.length === 1) {
+        setInput(`cd ${matches[0]}`);
+        setHistoryIndex(-1);
+      } else if (matches.length > 1) {
+        setHistory((previous) => [
+          ...previous,
+          `Possible destinations: ${matches.join(", ")}`,
+        ]);
+      }
+
+      return;
+      }
 
       const matches = commandNames.filter((name) => {
         return name.startsWith(currentInput);
