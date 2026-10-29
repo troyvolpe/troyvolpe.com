@@ -30,9 +30,43 @@ function Terminal({ mode = "home" }) {
     setCommandHistory,
   } = useContext(TerminalContext);
 
+  function handleAutoComplete(event){
+    if (event.key == "Tab"){
+      event.preventDefault();
+
+      const currentInput = input.trim().toLowerCase();
+
+      if (!currentInput) return;
+    
+      const commandNames = Object.keys(commands);
+
+      const matches = commandNames.filter((name) => {
+        return name.startsWith(currentInput);
+      });
+
+      if (matches.length === 1) {
+        setInput(matches[0]);
+        setHistoryIndex(-1);
+      } else if (matches.length > 1) {
+        setHistory((previous) => [
+          ...previous,
+          `Possible completions: ${matches.join(", ")}`,
+        ]);
+      }
+    }
+  }
+
   function handleHistoryNavigation(event) {
+    if (event.key === "Tab") {
+      handleAutoComplete(event);
+      return;
+    }
+
     if (event.key === "ArrowUp") {
       event.preventDefault();
+      
+      if (commandHistory.length === 0) return;
+
       const nextIndex = Math.min(
         historyIndex + 1,
         commandHistory.length - 1
@@ -44,6 +78,7 @@ function Terminal({ mode = "home" }) {
       );
     } else if (event.key === "ArrowDown") {
         event.preventDefault();
+        
         const nextIndex = Math.max(
           historyIndex - 1,
           -1
