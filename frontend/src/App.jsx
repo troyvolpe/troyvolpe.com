@@ -6,6 +6,7 @@ import Projects from "./pages/Projects";
 import Certifications from "./pages/Certifications";
 import Skills from "./pages/Skills";
 import Portfolio from "./pages/Portfolio";
+import Layout from "./components/Layout/Layout";
 import FloatingTerminal from "./components/Terminal/FloatingTerminal";
 
 function App() {
@@ -13,11 +14,13 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/certifications" element={<Certifications />} />
-        <Route path="/skills" element={<Skills />} />
-        <Route path="/portfolio" element={<Portfolio />} />
+        <Route element={<Layout />}>
+          <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/certifications" element={<Certifications />} />
+          <Route path="/skills" element={<Skills />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+        </Route>
       </Routes>
       <FloatingTerminal />
     </>

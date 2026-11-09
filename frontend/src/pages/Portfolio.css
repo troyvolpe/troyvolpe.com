@@ -1,0 +1,56 @@
+.portfolio-home {
+  display: grid;
+  gap: 48px;
+  padding-block: clamp(24px, 6vw, 72px);
+}
+
+.portfolio-home h1 {
+  margin: 0;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  line-height: 1.1;
+}
+
+.portfolio-home p {
+  color: #d1d5db;
+}
+
+.portfolio-home a {
+  color: #c4b5fd;
+}
+
+.portfolio-home section:first-child a {
+  display: inline-block;
+  margin: 8px 20px 0 0;
+}
+
+.portfolio-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.portfolio-sections a {
+  display: block;
+  height: 100%;
+  padding: 20px;
+  border: 1px solid #343a46;
+  border-radius: 12px;
+  background: #111318;
+  text-decoration: none;
+}
+
+.portfolio-sections a:hover,
+.portfolio-sections a:focus-visible {
+  border-color: #a78bfa;
+}
+
+.portfolio-sections h3,
+.portfolio-sections p {
+  margin: 0;
+}
+
+.portfolio-sections p {
+  margin-top: 8px;
+}
